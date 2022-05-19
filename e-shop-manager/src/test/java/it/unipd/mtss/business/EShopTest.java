@@ -274,4 +274,73 @@ public class EShopTest {
         assertEquals(7D, res, 0);
         assertNotEquals(5D, res, 0);
     }
+
+    @Test
+    public void testUnderageGiftWithLessThan10ItemsFrom6PMTo7PM() throws BillException {
+        User user = new User(1, "Mario", "Rossi", 10);
+        List<EItem> items = new ArrayList<EItem>();
+        EShop eShop = new EShop();
+
+        int N = 2;
+        String[] itemsName = { "M1", "M2" };
+        ElementsType[] types = {
+                ElementsType.Mouse,
+                ElementsType.Processor,
+        };
+        double[] prices = { 4D, 1D };
+        for (int i = 0; i < N; i++) {
+            items.add(new EItem(types[i], itemsName[i], prices[i]));
+        }
+
+        double res = 0;
+        eShop.activateDebug();
+        try {
+            res = eShop.getOrderPrice(items, user);
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        // 7 is the price of the items + 2 euros of commission
+        assertTrue(res < 7);
+    }
+
+    @Test
+    public void testUnderageGiftWithMoreThan10ItemsFrom6PMTo7PM() throws BillException {
+        User user = new User(1, "Mario", "Rossi", 10);
+        List<EItem> items = new ArrayList<EItem>();
+        EShop eShop = new EShop();
+
+        int N = 13;
+        String[] itemsName = { "M1", "K1", "A1", "M2", "K2", "A2", "P1", "K3", "M3", "A3", "M4", "M5", "P2" };
+        ElementsType[] types = {
+            ElementsType.Mouse,
+            ElementsType.Keyboard,
+            ElementsType.Motherboard,
+            ElementsType.Mouse,
+            ElementsType.Keyboard,
+            ElementsType.Motherboard,
+            ElementsType.Processor,
+            ElementsType.Keyboard,
+            ElementsType.Mouse,
+            ElementsType.Motherboard,
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Processor,
+        };
+        double[] prices = { 1D, 5D, 10D, 5D, 4D, 6D, 12D, 8D, 2D, 8D, 7D, 3D, 2D };
+        for (int i = 0; i < N; i++) {
+            items.add(new EItem(types[i], itemsName[i], prices[i]));
+        }
+
+        double res = 0;
+        eShop.activateDebug();
+        try {
+            res = eShop.getOrderPrice(items, user);
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        // 73 is the sum of all the prices
+        assertTrue(res < 73);
+    }
 }
