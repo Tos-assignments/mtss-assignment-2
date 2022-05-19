@@ -13,8 +13,10 @@ import java.util.List;
 import java.time.LocalTime;
 
 public class EShop implements Bill {
+    private boolean debug;
 
     public EShop() {
+        debug = false;
     }
 
     public double getOrderPrice(List<EItem> itemsOrdered, User user) throws BillException {
@@ -36,13 +38,19 @@ public class EShop implements Bill {
             }
         }
 
+        if (isGift(user)) {
+            for(int i = 0; i < Math.min(10, itemsOrdered.size()); ++i) {
+                int rando = (int) ((Math.random() * itemsOrdered.size()));
+                itemsOrdered.get(rando).setPrice(0);
+            }
+        }
+
         int nProcessors = 0;
         int indexLeastExpensiveProcessor = -1;
         int nMouses = 0;
         int indexLeastExpensiveMouse = -1;
         int nKeyboards = 0;
         int indexLeastExpensiveKeyboard = -1;
-        
         for (int i = 0; i < itemsOrdered.size(); ++i) {
             ElementsType itemType = itemsOrdered.get(i).getItemType();
             if (itemType == ElementsType.Processor) {
@@ -92,5 +100,25 @@ public class EShop implements Bill {
         }
 
         return res;
+    }
+
+    private boolean isGift(User user) {
+        LocalTime start = LocalTime.of(18, 0, 0);
+        LocalTime end = LocalTime.of(19, 0, 0);
+        LocalTime now;
+        if (debug) {
+            now = LocalTime.of(18, 30, 0);
+        } else {
+            now = LocalTime.now();
+        }
+        return now.isAfter(start) && now.isBefore(end) && user.getAge() < 18;
+    }
+
+    public void activateDebug() {
+        debug = true;
+    }
+
+    public void deactivateDebug(){
+        debug = false;
     }
 }
