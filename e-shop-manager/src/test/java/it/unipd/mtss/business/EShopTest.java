@@ -222,4 +222,28 @@ public class EShopTest {
         assertNotEquals(1100D, res, 0);
         assertEquals(990D, res, 0);
     }
+
+    @Test(expected = BillException.class)
+    public void testMoreThan30ElementsException() throws BillException {
+        User user = new User(1, "Mario", "Rossi", 30);
+        List<EItem> items = new ArrayList<EItem>();
+        EShop eShop = new EShop();
+
+        int N = 6;
+        String[] itemsName = { "M1", "M2", "KB1", "P1", "MB1", "KB2" };
+        ElementsType[] types = {
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Keyboard,
+            ElementsType.Processor,
+            ElementsType.Motherboard,
+            ElementsType.Keyboard
+        };
+        double[] prices = { 5D, 1D, 5D, 7D, 3D, 10D };
+        for(int j = 0; j < 50; j++)
+            for (int i = 0; i < N; i++)
+                items.add(new EItem(types[i], itemsName[i], prices[i]));
+
+        eShop.getOrderPrice(items, user);
+    }
 }
