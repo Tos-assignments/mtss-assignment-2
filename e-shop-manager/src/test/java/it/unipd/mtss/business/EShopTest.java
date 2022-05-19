@@ -123,4 +123,43 @@ public class EShopTest {
         assertEquals(36D, res, 0);
     }
 
+    @Test
+    public void testMouseDiscount() throws BillException {
+        User user = new User(1, "Mario", "Rossi", 30);
+        List<EItem> items = new ArrayList<EItem>();
+        EShop eShop = new EShop();
+
+        int N = 14;
+        String[] itemsName = { "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9", "M10", "M11", "M12", "P1", "P2" };
+        ElementsType[] types = {
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Processor,
+            ElementsType.Processor
+        };
+        double[] prices = { 1D, 5D, 10D, 5D, 4D, 6D, 12D, 8D, 2D, 8D, 7D, 3D, 2D, 10D };
+        for (int i = 0; i < N; i++) {
+            items.add(new EItem(types[i], itemsName[i], prices[i]));
+        }
+
+        double res = 0;
+        try {
+            res = eShop.getOrderPrice(items, user);
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        assertNotEquals(83D, res, 0);
+        assertEquals(82D, res, 0);
+    }
 }

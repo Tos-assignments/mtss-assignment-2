@@ -34,12 +34,21 @@ public class EShop implements Bill {
 
         int nProcessors = 0;
         int indexLeastExpensiveProcessor = -1;
+        int nMouses = 0;
+        int indexLeastExpensiveMouse = -1;
+        
         for (int i = 0; i < itemsOrdered.size(); ++i) {
             ElementsType itemType = itemsOrdered.get(i).getItemType();
             if (itemType == ElementsType.Processor) {
                 nProcessors++;
                 if (indexLeastExpensiveProcessor == -1 || itemsOrdered.get(indexLeastExpensiveProcessor).getPrice() > itemsOrdered.get(i).getPrice()) {
                     indexLeastExpensiveProcessor = i;
+                }
+            } else if (itemType == ElementsType.Mouse) {
+                nMouses++;
+                if (indexLeastExpensiveMouse == -1
+                        || itemsOrdered.get(indexLeastExpensiveMouse).getPrice() > itemsOrdered.get(i).getPrice()) {
+                    indexLeastExpensiveMouse = i;
                 }
             }
         }
@@ -49,6 +58,9 @@ public class EShop implements Bill {
             itemsOrdered.get(indexLeastExpensiveProcessor).setPrice(leastExpensiveProcessorPrice / 2);
         }
 
+        if (nMouses > 10) {
+            itemsOrdered.get(indexLeastExpensiveMouse).setPrice(0);
+        }
 
         double res = 0;
         for (EItem item : itemsOrdered) {
