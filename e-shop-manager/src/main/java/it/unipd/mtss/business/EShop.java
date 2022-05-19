@@ -26,6 +26,10 @@ public class EShop implements Bill {
             throw new BillException("Non ci sono elementi nell'ordinazione");
         }
 
+        if(itemsOrdered.size() > 30) {
+            throw new BillException("Troppi elementi nell'ordinazione");
+        }
+
         for (EItem item : itemsOrdered) {
             if (item.getPrice() < 0) {
                 throw new BillException("Un elemento ha un prezzo negativo");
