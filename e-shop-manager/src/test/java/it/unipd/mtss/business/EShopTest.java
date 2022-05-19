@@ -162,4 +162,36 @@ public class EShopTest {
         assertNotEquals(83D, res, 0);
         assertEquals(82D, res, 0);
     }
+    
+    @Test
+    public void testSameMousesAndKeyboardsDiscount() throws BillException {
+        User user = new User(1, "Mario", "Rossi", 30);
+        List<EItem> items = new ArrayList<EItem>();
+        EShop eShop = new EShop();
+
+        int N = 6;
+        String[] itemsName = { "M1", "M2", "KB1", "P1", "MB1", "KB2" };
+        ElementsType[] types = {
+            ElementsType.Mouse,
+            ElementsType.Mouse,
+            ElementsType.Keyboard,
+            ElementsType.Processor,
+            ElementsType.Motherboard,
+            ElementsType.Keyboard
+        };
+        double[] prices = { 5D, 1D, 5D, 7D, 3D, 10D };
+        for (int i = 0; i < N; i++) {
+            items.add(new EItem(types[i], itemsName[i], prices[i]));
+        }
+
+        double res = 0;
+        try {
+            res = eShop.getOrderPrice(items, user);
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        assertNotEquals(31D, res, 0);
+        assertEquals(26D, res, 0);
+    }
 }

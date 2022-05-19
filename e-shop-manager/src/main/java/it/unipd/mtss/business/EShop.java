@@ -36,6 +36,8 @@ public class EShop implements Bill {
         int indexLeastExpensiveProcessor = -1;
         int nMouses = 0;
         int indexLeastExpensiveMouse = -1;
+        int nKeyboards = 0;
+        int indexLeastExpensiveKeyboard = -1;
         
         for (int i = 0; i < itemsOrdered.size(); ++i) {
             ElementsType itemType = itemsOrdered.get(i).getItemType();
@@ -50,6 +52,12 @@ public class EShop implements Bill {
                         || itemsOrdered.get(indexLeastExpensiveMouse).getPrice() > itemsOrdered.get(i).getPrice()) {
                     indexLeastExpensiveMouse = i;
                 }
+            } else if (itemType == ElementsType.Keyboard) {
+                nKeyboards++;
+                if (indexLeastExpensiveKeyboard == -1
+                        || itemsOrdered.get(indexLeastExpensiveKeyboard).getPrice() > itemsOrdered.get(i).getPrice()) {
+                    indexLeastExpensiveKeyboard = i;
+                }
             }
         }
 
@@ -60,6 +68,10 @@ public class EShop implements Bill {
 
         if (nMouses > 10) {
             itemsOrdered.get(indexLeastExpensiveMouse).setPrice(0);
+        }
+
+        if (nKeyboards > 0 && nKeyboards == nMouses) {
+            itemsOrdered.get(indexLeastExpensiveKeyboard).setPrice(0);
         }
 
         double res = 0;
