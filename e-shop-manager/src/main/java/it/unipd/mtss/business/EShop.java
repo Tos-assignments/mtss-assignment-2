@@ -87,6 +87,10 @@ public class EShop implements Bill {
             res -= res*10/100;
         }
 
+        if (res < 10) {
+            res += 2;
+        }
+
         return res;
     }
 }
