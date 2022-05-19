@@ -32,6 +32,24 @@ public class EShop implements Bill {
             }
         }
 
+        int nProcessors = 0;
+        int indexLeastExpensiveProcessor = -1;
+        for (int i = 0; i < itemsOrdered.size(); ++i) {
+            ElementsType itemType = itemsOrdered.get(i).getItemType();
+            if (itemType == ElementsType.Processor) {
+                nProcessors++;
+                if (indexLeastExpensiveProcessor == -1 || itemsOrdered.get(indexLeastExpensiveProcessor).getPrice() > itemsOrdered.get(i).getPrice()) {
+                    indexLeastExpensiveProcessor = i;
+                }
+            }
+        }
+
+        if (nProcessors > 5) {
+            double leastExpensiveProcessorPrice = itemsOrdered.get(indexLeastExpensiveProcessor).getPrice();
+            itemsOrdered.get(indexLeastExpensiveProcessor).setPrice(leastExpensiveProcessorPrice / 2);
+        }
+
+
         double res = 0;
         for (EItem item : itemsOrdered) {
             res += item.getPrice();

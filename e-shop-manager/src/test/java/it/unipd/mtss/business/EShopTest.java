@@ -89,4 +89,38 @@ public class EShopTest {
 
         eShop.getOrderPrice(items, user);
     }
+
+    @Test
+    public void testProcessorDiscount() throws BillException {
+        User user = new User(1, "Mario", "Rossi", 30);
+        List<EItem> items = new ArrayList<EItem>();
+        EShop eShop = new EShop();
+
+        int N = 7;
+        String[] itemsName = { "P1", "P2", "P3", "P4", "P5", "P6", "KB1" };
+        ElementsType[] types = {
+            ElementsType.Processor,
+            ElementsType.Processor,
+            ElementsType.Processor,
+            ElementsType.Processor,
+            ElementsType.Processor,
+            ElementsType.Processor,
+            ElementsType.Keyboard
+        };
+        double[] prices = { 6D, 4D, 5D, 5D, 7D, 2D, 8D };
+        for (int i = 0; i < N; i++) {
+            items.add(new EItem(types[i], itemsName[i], prices[i]));
+        }
+
+        double res = 0;
+        try {
+            res = eShop.getOrderPrice(items, user);
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        assertNotEquals(37D, res, 0);
+        assertEquals(36D, res, 0);
+    }
+
 }
