@@ -246,4 +246,32 @@ public class EShopTest {
 
         eShop.getOrderPrice(items, user);
     }
+
+    @Test
+    public void testOrderPriceLessThan10Euros() throws BillException {
+        User user = new User(1, "Mario", "Rossi", 30);
+        List<EItem> items = new ArrayList<EItem>();
+        EShop eShop = new EShop();
+
+        int N = 2;
+        String[] itemsName = { "M1", "M2" };
+        ElementsType[] types = {
+                ElementsType.Mouse,
+                ElementsType.Processor,
+        };
+        double[] prices = { 4D, 1D };
+        for (int i = 0; i < N; i++) {
+            items.add(new EItem(types[i], itemsName[i], prices[i]));
+        }
+
+        double res = 0;
+        try {
+            res = eShop.getOrderPrice(items, user);
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(7D, res, 0);
+        assertNotEquals(5D, res, 0);
+    }
 }
