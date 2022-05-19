@@ -117,8 +117,4 @@ public class EShop implements Bill {
     public void activateDebug() {
         debug = true;
     }
-
-    public void deactivateDebug(){
-        debug = false;
-    }
 }
