@@ -20,7 +20,7 @@ import org.junit.Test;
 public class EShopTest {
 
     @Test
-    public void testGetOrderPrice() throws BillException {
+    public void testTotalOrderPrice() throws BillException {
         User user = new User(1, "Mario", "Rossi", 30);
         List<EItem> items = new ArrayList<EItem>();
         EShop eShop = new EShop();
@@ -91,7 +91,7 @@ public class EShopTest {
     }
 
     @Test
-    public void testProcessorDiscount() throws BillException {
+    public void testMoreThan5ProcessorsOneIsHalfPrice() throws BillException {
         User user = new User(1, "Mario", "Rossi", 30);
         List<EItem> items = new ArrayList<EItem>();
         EShop eShop = new EShop();
@@ -124,7 +124,7 @@ public class EShopTest {
     }
 
     @Test
-    public void testMouseDiscount() throws BillException {
+    public void testMoreThan10MousesOneIsFree() throws BillException {
         User user = new User(1, "Mario", "Rossi", 30);
         List<EItem> items = new ArrayList<EItem>();
         EShop eShop = new EShop();
@@ -162,9 +162,9 @@ public class EShopTest {
         assertNotEquals(83D, res, 0);
         assertEquals(82D, res, 0);
     }
-    
+
     @Test
-    public void testSameMousesAndKeyboardsDiscount() throws BillException {
+    public void testSameMousesAndKeyboardsOneIsFree() throws BillException {
         User user = new User(1, "Mario", "Rossi", 30);
         List<EItem> items = new ArrayList<EItem>();
         EShop eShop = new EShop();
@@ -193,5 +193,33 @@ public class EShopTest {
 
         assertNotEquals(31D, res, 0);
         assertEquals(26D, res, 0);
+    }
+
+    @Test
+    public void testTotalPriceMoreThan1000Get10PercentDiscount() throws BillException {
+        User user = new User(1, "Mario", "Rossi", 30);
+        List<EItem> items = new ArrayList<EItem>();
+        EShop eShop = new EShop();
+
+        int N = 2;
+        String[] itemsName = { "MB1", "MB2" };
+        ElementsType[] types = {
+            ElementsType.Motherboard,
+            ElementsType.Motherboard
+        };
+        double[] prices = { 700D, 400D };
+        for (int i = 0; i < N; i++) {
+            items.add(new EItem(types[i], itemsName[i], prices[i]));
+        }
+
+        double res = 0;
+        try {
+            res = eShop.getOrderPrice(items, user);
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        assertNotEquals(1100D, res, 0);
+        assertEquals(990D, res, 0);
     }
 }

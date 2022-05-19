@@ -79,6 +79,10 @@ public class EShop implements Bill {
             res += item.getPrice();
         }
 
+        if (res > 1000) {
+            res -= res*10/100;
+        }
+
         return res;
     }
 }
